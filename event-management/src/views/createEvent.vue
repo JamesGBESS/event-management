@@ -1,5 +1,21 @@
 <script setup>
+import { useEventStore } from '@/stores/counter';
+import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
+const eventStore = useEventStore()
+const event = ref({
+    title: '',
+    content: '',
+    dateUp: '',
+    dateDown: '',
+    place: ''
+})
+const addEvent = () => {
+    eventStore.createEvent(event.value.title, event.value.content, event.value.dateUp, event.value.dateDown, event.value.place)
 
+
+}
+const date = ref(new Date())
 </script>
 <template>
 
@@ -7,24 +23,45 @@
         <div class="py-20 w-[600px] bg-gray-200 border rounded-xl flex justify-center items-center">
             <form @submit.prevent>
                 <div class="flex flex-col gap-3">
-                    <input type="text"
-                        class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2" v-model="title"
-                        placeholder="Title">
-                    <input type="text"
-                        class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2" v-model="content"
-                        placeholder="Description">
-                    <input type="date"
-                        class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2" v-model="dateUp"
-                        placeholder="Date">
-                    <input type="date"
-                        class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2" v-model="dateDown"
-                        placeholder="">
+                    <div>
+                        <label for="" class="text-black font-bold">Title</label>
+                        <input type="text" v-model="event.title"
+                            class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            placeholder="Event title">
+                    </div>
+
+                    <div>
+                        <label for="" class="text-black font-bold">Description</label>
+                        <input type="text" v-model="event.content"
+                            class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            placeholder="Add a description for your event">
+                    </div>
+                    <div>
+                        <label for="" class="text-black font-bold">Start</label>
+                        <input type="date" v-model="event.dateUp"
+                            class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            placeholder="Title">
+                    </div>
+                    <div>
+                        <label for="" class="text-black font-bold">End</label>
+                        <input type="date" v-model="event.dateDown"
+                            class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            placeholder="Title">
+                    </div>
+                    <div>
+                        <label for="" class="text-black font-bold">Place</label>
+                        <input type="text" v-model="event.place"
+                            class="border-2 rounded-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            placeholder="Place of event">
+                    </div>
                 </div>
                 <div class="flex gap-3 mt-3">
-                    <button
+                    <button @click="eventStore.isoDate(date)"
                         class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500">Sauvegarder</button>
-                    <button
-                        class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300">Annuler</button>
+                    <RouterLink to="/">
+                        <button
+                            class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300">Annuler</button>
+                    </RouterLink>
                 </div>
             </form>
         </div>

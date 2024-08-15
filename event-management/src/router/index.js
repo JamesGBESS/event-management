@@ -1,6 +1,6 @@
+import CreateEvent from '@/views/createEvent.vue'
+import EventCalendar from '@/views/EventCalendar.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import EvEnts from '../views/EvEnts.vue'
-import VueTest from '@/views/VueTest.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,8 +8,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: VueTest
+      component: EventCalendar
     },
+    {
+      path: '/create',
+      name: 'creation',
+      component: CreateEvent
+    },
+    
   ]
 })
 
