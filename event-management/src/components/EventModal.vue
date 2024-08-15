@@ -1,7 +1,8 @@
 <script setup>
 import { useShowStore } from '@/stores/show';
-import { useEventStore } from '@/stores/counter';
+import { useEventStore } from '@/stores/event';
 import { ref, defineProps } from 'vue';
+import DeleteEvent from './DeleteEvent.vue';
 const showStore = useShowStore()
 const eventStore = useEventStore()
 showStore.showDescription = ref(true)
@@ -163,7 +164,7 @@ const newEvent = ref({
                                     </div>
                                     <div v-if="showStore.showInputDateUp == true">
                                         <form @submit.prevent="">
-                                            <input v-model = "newEvent.dateUp"
+                                            <input v-model="newEvent.dateUp"
                                                 @keyup.enter="eventStore.updateDateUp(event.id, newEvent.dateUp); showStore.showDateUp = true; showStore.showInputDateUp = false"
                                                 type="date"
                                                 class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
@@ -181,7 +182,7 @@ const newEvent = ref({
                                     </div>
                                     <div v-if="showStore.showInputDateDown == true">
                                         <form @submit.prevent="">
-                                            <input v-model = "newEvent.dateDown"
+                                            <input v-model="newEvent.dateDown"
                                                 @keyup.enter="eventStore.updateDateDown(event.id, newEvent.dateDown); showStore.showDateDown = true; showStore.showInputDateDown = false"
                                                 type="date"
                                                 class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
@@ -211,7 +212,7 @@ const newEvent = ref({
                                             {{ event.extendedProps.place }}</p>
                                     </div>
                                     <div v-if="showStore.showInputStatus == true">
-                                        <input v-model = "newEvent.place"
+                                        <input v-model="newEvent.place"
                                             @keyup.enter="eventStore.updatePlace(event.id, newEvent.place); showStore.showStatus = true; showStore.showInputStatus = false"
                                             type="text"
                                             class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black"
@@ -226,7 +227,7 @@ const newEvent = ref({
                                     class=" justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
                                     @click="showStore.showDeleteModal = true">DELETE</button>
                             </div>
-
+                            <DeleteEvent @close="showStore.showDeleteModal = false" @confirm="eventStore.deleteEvent(event.id)"></DeleteEvent>
                         </div>
                     </div>
                 </div>

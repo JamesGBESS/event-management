@@ -1,5 +1,5 @@
 <script setup>
-import { useEventStore } from '@/stores/counter';
+import { useEventStore } from '@/stores/event';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 const eventStore = useEventStore()
