@@ -132,6 +132,9 @@ actions: {
   deleteEvent(id) {
     this.events = this.events.filter((event) => event.id !== id)
     localStorage.setItem('events', JSON.stringify(this.events))
+  },
+  RedirectionJavascript(link) {
+    document.location.href = link;
   }
 }
 })

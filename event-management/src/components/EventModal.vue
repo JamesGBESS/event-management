@@ -217,9 +217,7 @@ const newEvent = ref({
                                             type="text"
                                             class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black"
                                             placeholder=" Voluntary ">
-
                                     </div>
-
                                 </div>
                             </div>
                             <div class="mt-16 text-end">

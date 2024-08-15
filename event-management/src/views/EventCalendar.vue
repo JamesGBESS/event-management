@@ -1,7 +1,11 @@
 <template>
   <div>
+    <div class="z-50">
+      <AddEvent style="position: fixed; "></AddEvent>
+    </div>
     <FullCalendar :options="calendarOptions" />
     <EventModal :event="eventClick" @close="showStore.showModal = false"></EventModal>
+    
   </div>
 </template>
 
@@ -9,6 +13,7 @@
 import { ref, computed } from 'vue'
 import FullCalendar from '@fullcalendar/vue3'
 import EventModal from '@/components/EventModal.vue'
+import AddEvent from '@/components/AddEvent.vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useEventStore } from '@/stores/event'
