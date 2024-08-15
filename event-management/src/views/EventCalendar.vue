@@ -17,6 +17,7 @@ const eventStore = useEventStore();
 const showStore = useShowStore()
 const events = computed(() => {
   return eventStore.events.map(event => ({
+    id: event.id,
     title: event.title,
     start: event.dateUp,
     end: event.dateDown,

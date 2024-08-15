@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useShowStore } from './show'
 import { v4 } from 'uuid'
 const STORE_NAME = 'event'
 export const useEventStore = defineStore(STORE_NAME, {
@@ -42,24 +41,6 @@ export const useEventStore = defineStore(STORE_NAME, {
 
 ),
 actions: {
-  isoDate(date){
-    return date.toLocaleDateString("fr-FR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    })
-  },
-  
-
-  // handleEventClick(arg){
-  //   console.log('Event clicked: ', arg.event.title);
-  //   alert('Event clicked: ' + arg.event.title);
-  //   alert('Event clicked: ' + arg.event.extendedProps.content);
-  //   alert('Event clicked: ' + arg.event.start);
-  //   alert('Event clicked: ' + arg.event.end);
-  //   alert('Event clicked: ' + arg.event.extendedProps.place);
-  
-  // },
 
   trimmedValue(inputValue) {
     return inputValue.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
@@ -76,7 +57,7 @@ actions: {
     if (!dateUp || this.trimmedValue(dateUp) == '') {
       this.errors.push('Required!')
     }
-    if (!dateDown || this.trimmedValue(dateDown) == '' || new Date()) {
+    if (!dateDown || this.trimmedValue(dateDown) == '') {
       this.errors.push('Required!')
     }
 
@@ -101,6 +82,8 @@ actions: {
       this.errors.push('Required!')
     } else {
       const eventIndex = this.events.findIndex((event) => event.id === id)
+      console.log(eventIndex);
+      
       this.events[eventIndex].title = newTitle
       localStorage.setItem('events', JSON.stringify(this.events))
     }

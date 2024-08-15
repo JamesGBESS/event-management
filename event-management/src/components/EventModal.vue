@@ -1,7 +1,9 @@
 <script setup>
 import { useShowStore } from '@/stores/show';
+import { useEventStore } from '@/stores/counter';
 import { ref, defineProps } from 'vue';
 const showStore = useShowStore()
+const eventStore = useEventStore()
 showStore.showDescription = ref(true)
 showStore.showTitle = ref(true)
 showStore.showDateUp = ref(true)
@@ -13,6 +15,14 @@ const props = defineProps({
         required: true
     }
 })
+const newEvent = ref({
+    title: props.event.title,
+    content: 'props.event.extendedProps.content',
+    dateUp: props.event.start,
+    dateDown: props.event.end,
+    place: 'props.event.extendedProps.place'
+})
+
 </script>
 <template>
     <div v-if="showStore.showModal == true">
@@ -51,7 +61,8 @@ const props = defineProps({
                                                     d="M23,36.1H11.6c-1.2,0-2.2,1-2.2,2.2s1,2.2,2.2,2.2H23c1.2,0,2.2-1,2.2-2.2S24.3,36.1,23,36.1z" />
                                             </g>
                                         </svg>
-                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">{{ event.title }}</h2>
+                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">{{
+                                            event.title }}</h2>
                                         <button @click="showStore.showTitle = false; showStore.showInputTitle = true"
                                             class="text-end mr-4  hover:bg-gray-300 rounded transition-all duration-500 "><svg
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -62,13 +73,12 @@ const props = defineProps({
                                             </svg>
                                         </button>
                                     </div>
-                                    <form class="gap-2 pl-10"
-                                        v-if="showStore.showInputTitle == true">
-                                        <input type="text"
+                                    <form @submit.prevent class="gap-2 pl-10" v-if="showStore.showInputTitle == true">
+                                        <input type="text" v-model="newEvent.title"
                                             class="outline-none border pl-4 bg-white border-gray-400 h-10 w-[600px] shadow rounded">
                                         <div class="flex gap-2 mt-2">
                                             <button type="submit"
-                                                @click=" showStore.showTitle = true; showStore.showInputTitle = false"
+                                                @click="eventStore.updateTitle(event.id, newEvent.title); showStore.showTitle = true; showStore.showInputTitle = false"
                                                 class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500">Sauvegarder</button>
                                             <button
                                                 @click="showStore.showTitle = true; showStore.showInputTitle = false"
@@ -113,13 +123,12 @@ const props = defineProps({
                                             {{ event.extendedProps.content }}</p>
                                     </div>
                                     <!-- Input pour mettre la description -->
-                                    <form  class="flex flex-col mt-4"
-                                        v-if="showStore.showTextarea == true">
-                                        <textarea name="" 
+                                    <form class="flex flex-col mt-4" v-if="showStore.showTextarea == true">
+                                        <textarea name="" v-model="newEvent.content"
                                             class="border-2 border-blue-600 rounded-lg h-24 bg-white py-3  w-full outline-none pl-4"></textarea>
                                         <div class="flex gap-2 mt-2">
                                             <button
-                                                @click="showStore.showDescription = true; showStore.showTextarea = false"
+                                                @click="eventStore.updateContent(event.id, newEvent.content); showStore.showDescription = true; showStore.showTextarea = false"
                                                 class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500">Sauvegarder</button>
                                             <button
                                                 @click="showStore.showDescription = true; showStore.showTextarea = false"
@@ -144,44 +153,44 @@ const props = defineProps({
 
                                 <h1 class="font-semibold text-lg">Dates</h1>
                             </div>
-                            
-                                <div class=" items-center pl-2">
-                                    <div class="pl-10 flex flex-col gap-4">
-                                        <div v-if="showStore.showDateUp == true">
-                                            <p @click="showStore.showInputDateUp = true; showStore.showDateUp = false"
-                                                class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
-                                                {{ event.start }}</p>
-                                        </div>
-                                        <div v-if="showStore.showInputDateUp == true">
-                                            <form @submit.prevent = "">
-                                                <input 
-                                                    @keyup.enter="showStore.showDateUp = true; showStore.showInputDateUp = false"
-                                                    type="date"
-                                                    class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
-                                            </form>
-                                        </div>
 
+                            <div class=" items-center pl-2">
+                                <div class="pl-10 flex flex-col gap-4">
+                                    <div v-if="showStore.showDateUp == true">
+                                        <p @click="showStore.showInputDateUp = true; showStore.showDateUp = false"
+                                            class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
+                                            {{ event.start }}</p>
                                     </div>
-                                </div>
-                                <div class=" items-center pl-2 mt-6">
-                                    <div class="pl-10 flex flex-col gap-4">
-                                        <div v-if="showStore.showDateDown == true">
-                                            <p @click="showStore.showInputDateDown = true; showStore.showDateDown = false"
-                                                class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
-                                             {{ event.end.slice(0,10) }}</p>
-                                        </div>
-                                        <div v-if="showStore.showInputDateDown == true">
-                                            <form @submit.prevent = "">
-                                                <input 
-                                                    @keyup.enter=" showStore.showDateDown = true; showStore.showInputDateDown = false"
-                                                    type="date"
-                                                    class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
-                                            </form>
-                                        </div>
+                                    <div v-if="showStore.showInputDateUp == true">
+                                        <form @submit.prevent="">
+                                            <input v-model = "newEvent.dateUp"
+                                                @keyup.enter="eventStore.updateDateUp(event.id, newEvent.dateUp); showStore.showDateUp = true; showStore.showInputDateUp = false"
+                                                type="date"
+                                                class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
+                                        </form>
+                                    </div>
 
-                                    </div>
                                 </div>
-                            
+                            </div>
+                            <div class=" items-center pl-2 mt-6">
+                                <div class="pl-10 flex flex-col gap-4">
+                                    <div v-if="showStore.showDateDown == true">
+                                        <p @click="showStore.showInputDateDown = true; showStore.showDateDown = false"
+                                            class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
+                                            {{ event.end }}</p>
+                                    </div>
+                                    <div v-if="showStore.showInputDateDown == true">
+                                        <form @submit.prevent="">
+                                            <input v-model = "newEvent.dateDown"
+                                                @keyup.enter="eventStore.updateDateDown(event.id, newEvent.dateDown); showStore.showDateDown = true; showStore.showInputDateDown = false"
+                                                type="date"
+                                                class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black">
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+
                             <div class="mb-5 flex gap-2 items-center">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -197,22 +206,25 @@ const props = defineProps({
                             <div class="flex gap-3 items-center pl-2">
                                 <div class="pl-10 flex flex-col gap-4">
                                     <div v-if="showStore.showStatus == true">
-                                        <p @click="showStore.showInputStatus = true; showStore.showStatus = false" 
+                                        <p @click="showStore.showInputStatus = true; showStore.showStatus = false"
                                             class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
                                             {{ event.extendedProps.place }}</p>
                                     </div>
                                     <div v-if="showStore.showInputStatus == true">
-                                        <input 
-                                            @keyup.enter=" showStore.showStatus = true; showStore.showInputStatus = false"
+                                        <input v-model = "newEvent.place"
+                                            @keyup.enter="eventStore.updatePlace(event.id, newEvent.place); showStore.showStatus = true; showStore.showInputStatus = false"
                                             type="text"
-                                            class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black" placeholder="Todo, Doing or Done ">
+                                            class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-black"
+                                            placeholder=" Voluntary ">
 
                                     </div>
 
                                 </div>
                             </div>
                             <div class="mt-16 text-end">
-                                <button class=" justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500" @click="showStore.showDeleteModal = true">DELETE</button>
+                                <button
+                                    class=" justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
+                                    @click="showStore.showDeleteModal = true">DELETE</button>
                             </div>
 
                         </div>

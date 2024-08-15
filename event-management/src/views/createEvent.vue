@@ -15,13 +15,12 @@ const addEvent = () => {
 
 
 }
-const date = ref(new Date())
 </script>
 <template>
 
     <div class="flex justify-center items-center pt-20">
         <div class="py-20 w-[600px] bg-gray-200 border rounded-xl flex justify-center items-center">
-            <form @submit.prevent>
+            <form>
                 <div class="flex flex-col gap-3">
                     <div>
                         <label for="" class="text-black font-bold">Title</label>
@@ -56,7 +55,7 @@ const date = ref(new Date())
                     </div>
                 </div>
                 <div class="flex gap-3 mt-3">
-                    <button @click="eventStore.isoDate(date)"
+                    <button @click="addEvent"
                         class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500">Sauvegarder</button>
                     <RouterLink to="/">
                         <button
