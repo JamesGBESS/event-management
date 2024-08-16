@@ -20,7 +20,7 @@ const addEvent = () => {
 
     <div class="flex justify-center items-center pt-20">
         <div class="py-20 w-[600px] bg-gray-200 border rounded-xl flex justify-center items-center">
-            <form>
+            <form >
                 <div class="flex flex-col gap-3">
                     <div>
                         <label for="" class="text-black font-bold">Title</label>

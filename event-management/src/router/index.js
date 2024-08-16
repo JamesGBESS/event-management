@@ -1,5 +1,7 @@
+import AuTh from '@/views/AuTh.vue'
 import CreateEvent from '@/views/createEvent.vue'
 import EventCalendar from '@/views/EventCalendar.vue'
+import LoGin from '@/views/LoGin.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -14,6 +16,16 @@ const router = createRouter({
       path: '/create',
       name: 'creation',
       component: CreateEvent
+    },
+    {
+      path: '/login',
+      name: 'Connection',
+      component: LoGin
+    },
+    {
+      path: '/signin',
+      name: 'Auth',
+      component: AuTh
     },
     
   ]

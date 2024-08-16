@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="z-50">
+    <div class="flex flex-col gap-20">
+      <div class="z-50">
       <AddEvent style="position: fixed; "></AddEvent>
     </div>
     <FullCalendar :options="calendarOptions" />
+    </div>
     <EventModal :event="eventClick" @close="showStore.showModal = false"></EventModal>
     
   </div>

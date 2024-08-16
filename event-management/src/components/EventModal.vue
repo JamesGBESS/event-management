@@ -18,10 +18,10 @@ const props = defineProps({
 })
 const newEvent = ref({
     title: props.event.title,
-    content: 'props.event.extendedProps.content',
-    dateUp: props.event.start,
-    dateDown: props.event.end,
-    place: 'props.event.extendedProps.place'
+    content: '',
+    dateUp: '',
+    dateDown: '',
+    place: ''
 })
 
 </script>
