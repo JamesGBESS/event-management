@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { v4 } from 'uuid'
-import { useUserStore } from './user'
+// import { useUserStore } from './user'
 
 const STORE_NAME = 'event'
 export const useEventStore = defineStore(STORE_NAME, {
@@ -13,17 +13,15 @@ actions: {
   newDate(date){
     return new Date(date);
   },
-
   trimmedValue(inputValue) {
     return inputValue.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
   },
 
-  createEvent(title, content, dateUp, dateDown, place = null) {
+  createEvent(user_id, title, content, dateUp, dateDown, place = null) {
     this.errors = []
     if (!title || this.trimmedValue(title) == '') {
       this.errors.push('Required!')
       alert("Title is Required !")
-
     }
     if (!content || this.trimmedValue(content) == '') {
       this.errors.push('Required!')
@@ -44,12 +42,12 @@ actions: {
       this.errors.push("End date shouldn't be less than Start date")
       alert("End date shouldn't be less than Start date")
     }
-
     if (this.errors.length) {
       return false
     }
     const event = {
       id: v4(),
+      user_id: user_id,
       title: title,
       content: content,
       dateUp: dateUp,
@@ -86,7 +84,7 @@ actions: {
   },
   updateDateUp(id, newDateUp) {
     this.errors = []
-    if (!newDateUp || this.trimmedValue(newDateUp) == '') {
+    if (!newDateUp || this.trimmedValue(newDateUp) == '') {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
       this.errors.push('Required!')
       alert("DateUp is Required !")
     } else {

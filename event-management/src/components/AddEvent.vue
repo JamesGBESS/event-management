@@ -1,4 +1,7 @@
 <script setup>
+import { useRoute } from 'vue-router';
+const route = useRoute()
+const id = route.params.id
 </script>
 
 
@@ -9,8 +12,8 @@
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <div></div>
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-<a href="/create">
-    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get started</button>
+<a :href = "`/create/${id}`">
+    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add event</button>
 
 </a>
   </div>

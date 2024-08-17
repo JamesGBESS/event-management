@@ -6,6 +6,7 @@ const STORE_NAME = 'user'
 export const useUserStore = defineStore(STORE_NAME, {
   state: () => ({
     users: JSON.parse(localStorage.getItem('users')) || [],
+    user: '',
     errors: []
   }),
   actions: {
@@ -66,7 +67,8 @@ export const useUserStore = defineStore(STORE_NAME, {
         id: v4(),
         name: name,
         email: email,
-        password: password
+        password: password,
+        isLogged: false
       }
       console.log(user)
       this.users.push(user)
@@ -79,8 +81,7 @@ export const useUserStore = defineStore(STORE_NAME, {
       if (
         !email ||
         this.trimmedValue(email) == '' ||
-        !this.validateEmail(email) ||
-        userFounded != 'undefined'
+        userFounded == undefined
       ) {
         console.log(this.validateEmail(email))
         this.errors.push('Required!')
@@ -93,7 +94,13 @@ export const useUserStore = defineStore(STORE_NAME, {
       if (this.errors.length) {
         return false
       }
+      userFounded.isLogged = true
+      this.user = userFounded
+      this.redirect('/events'+ userFounded.id)
+    },
+    logoutUser(){
       this.redirect('/')
+
     }
   }
 })

@@ -20,11 +20,21 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useEventStore } from '@/stores/event'
 import { useShowStore } from '@/stores/show'
+import { useUserStore } from '@/stores/user'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const id = route.params.id
 const eventStore = useEventStore();
-const showStore = useShowStore()
+const showStore = useShowStore();
+const userStore = useUserStore()
+console.log(id);
+
+console.log(userStore.user);
+
+const userEvents = eventStore.events.filter(event => (event.user_id === id))
+console.log(userEvents);
 const events = computed(() => {
-  return eventStore.events.map(event => ({
-    id: event.id,
+  return userEvents.map(event => ({
     title: event.title,
     start: event.dateUp,
     end: event.dateDown,

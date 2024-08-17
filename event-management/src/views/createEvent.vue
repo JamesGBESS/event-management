@@ -2,6 +2,8 @@
 import { useEventStore } from '@/stores/event';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useRoute } from 'vue-router';
+const route = useRoute()
 const eventStore = useEventStore()
 const event = ref({
     title: '',
@@ -10,8 +12,11 @@ const event = ref({
     dateDown: '',
     place: ''
 })
+const id = route.params.id
 const addEvent = () => {
-    eventStore.createEvent(event.value.title, event.value.content, event.value.dateUp, event.value.dateDown, event.value.place)
+    eventStore.createEvent(id, event.value.title, event.value.content, event.value.dateUp, event.value.dateDown, event.value.place)
+    console.log(id);
+    
 
 
 }
