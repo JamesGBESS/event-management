@@ -27,9 +27,12 @@ const id = route.params.id
 const eventStore = useEventStore();
 const showStore = useShowStore();
 const userStore = useUserStore()
+      const userFounded = userStore.users.find((user) => user.id === id)
+console.log(userFounded.isLogged);
+
 console.log(id);
 
-console.log(userStore.user);
+console.log(userFounded);
 
 const userEvents = eventStore.events.filter(event => (event.user_id === id))
 console.log(userEvents);

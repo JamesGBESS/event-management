@@ -62,7 +62,7 @@ const addEvent = () => {
                 <div class="flex gap-3 mt-3">
                     <button @click="addEvent"
                         class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500">Sauvegarder</button>
-                    <RouterLink to="/">
+                    <RouterLink :to="`/events/${id}`">
                         <button
                             class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300">Annuler</button>
                     </RouterLink>

@@ -14,25 +14,18 @@ export const useUserStore = defineStore(STORE_NAME, {
       router.push(route)
     },
     validateEmail(email) {
-      const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      if (regex.test(email)) {
-        return true
-      } else {
-        return false
-      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email)
     },
     validatePassword(password) {
-      const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-      if (regex.test(password)) {
-        return true
-      } else {
-        return false
-      }
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      return passwordRegex.test(password);
     },
     trimmedValue(inputValue) {
       return inputValue.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
     },
     addUser(name, email, password) {
+      email = email.toLowerCase()
       const userFounded = this.users.find((user) => user.email === email)
       console.log(userFounded)
       this.errors = []
@@ -54,7 +47,6 @@ export const useUserStore = defineStore(STORE_NAME, {
         !password ||
         this.trimmedValue(password) == '' ||
         !this.validatePassword(password) ||
-        password.length < 6 ||
         password.length > 16
       ) {
         this.errors.push('Invalid password !')
@@ -95,10 +87,14 @@ export const useUserStore = defineStore(STORE_NAME, {
         return false
       }
       userFounded.isLogged = true
+      localStorage.setItem('users', JSON.stringify(this.users))
       this.user = userFounded
-      this.redirect('/events'+ userFounded.id)
+      this.redirect('/events/'+ userFounded.id)
     },
-    logoutUser(){
+    logoutUser(id){
+      const userFounded = this.users.find((user) => user.id === id)
+      userFounded.isLogged = false;
+      localStorage.setItem('users', JSON.stringify(this.users))
       this.redirect('/')
 
     }

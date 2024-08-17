@@ -10,6 +10,11 @@ export const useEventStore = defineStore(STORE_NAME, {
 
 ),
 actions: {
+  eventsUser(user_id){
+    const userEvents = this.events.filter(event => (event.user_id === user_id))
+    return userEvents
+
+  },
   newDate(date){
     return new Date(date);
   },
@@ -58,66 +63,62 @@ actions: {
     localStorage.setItem('events', JSON.stringify(this.events))
   },
 
-  updateTitle(id, newTitle) {
+  updateTitle(user_id, id, newTitle) {
     this.errors = []
     if (!newTitle || this.trimmedValue(newTitle) == '') {
       this.errors.push('Required!')
       alert("Title is Required !")      
     } else {
-      const eventIndex = this.events.findIndex((event) => event.id === id)
-      console.log(eventIndex);
-      
-      this.events[eventIndex].title = newTitle
+      const eventIndex = this.eventsUser(user_id).findIndex((event) => event.id === id)
+      console.log(eventIndex); 
+      this.eventsUser(user_id)[eventIndex].title = newTitle
       localStorage.setItem('events', JSON.stringify(this.events))
     }
   },
-  updateContent(id, newContent) {
+  updateContent(user_id, id, newContent) {
     this.errors = []
     if (!newContent || this.trimmedValue(newContent) == '') {
       this.errors.push('Required!')
       alert("Description is Required !")
     } else {
-      const eventIndex = this.events.findIndex((event) => event.id === id)
-      this.events[eventIndex].content = newContent
+      const eventIndex = this.eventsUser(user_id).findIndex((event) => event.id === id)
+      this.eventsUser(user_id)[eventIndex].content = newContent
       localStorage.setItem('events', JSON.stringify(this.events))
     }
   },
-  updateDateUp(id, newDateUp) {
+  updateDateUp(user_id, id, newDateUp) {
     this.errors = []
     if (!newDateUp || this.trimmedValue(newDateUp) == '') {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
       this.errors.push('Required!')
       alert("DateUp is Required !")
     } else {
-      const eventIndex = this.events.findIndex((event) => event.id === id)
-      this.events[eventIndex].dateUp = newDateUp
+      const eventIndex = this.eventsUser(user_id).findIndex((event) => event.id === id)
+      this.eventsUser(user_id)[eventIndex].dateUp = newDateUp
       localStorage.setItem('events', JSON.stringify(this.events))
     }
   },
-  updateDateDown(id, newDateDown) {
+  updateDateDown(user_id, id, newDateDown) {
     this.errors = []
     if (!newDateDown || this.trimmedValue(newDateDown) == '') {
       this.errors.push('Required!')
       alert("DateDown is Required !")
 
     } else {
-      const eventIndex = this.events.findIndex((event) => event.id === id)
-
-      this.events[eventIndex].dateDown = newDateDown
+      const eventIndex = this.eventsUser(user_id).findIndex((event) => event.id === id)
+      this.eventsUser(user_id)[eventIndex].dateDown = newDateDown
       localStorage.setItem('events', JSON.stringify(this.events))
     }
   },
-  updatePlace(id, place = null) {
+  updatePlace(user_id, id, place = null) {
 
-      const eventIndex = this.events.findIndex((event) => event.id === id)
-      this.events[eventIndex].place = place
+      const eventIndex = this.eventsUser(user_id).findIndex((event) => event.id === id)
+      this.eventsUser(user_id)[eventIndex].place = place
       localStorage.setItem('events', JSON.stringify(this.events))
   },
-  deleteEvent(id) {
+  deleteEvent(user_id, id) {
+  const userEvents = this.events.filter(event => (event.user_id === user_id))
     this.events = this.events.filter((event) => event.id !== id)
     localStorage.setItem('events', JSON.stringify(this.events))
-  },
-  RedirectionJavascript(link) {
-    document.location.href = link;
   }
 }
 })
